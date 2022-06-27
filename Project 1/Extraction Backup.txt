@@ -1,0 +1,140 @@
+import openpyxl
+import xlsxwriter
+import re
+#ALL THE AUTOMATION VARIABLES ARE STORED HERE
+x = int(1)
+y = int(x +1)
+n = int(2)
+v = int(2)
+u = int(2)
+#ALL THE AUTOMATION VARIABLES ARE STORED HERE
+workbook = xlsxwriter.Workbook('BSA analysis report.xlsx')
+worksheet = workbook.add_worksheet()
+num = int(input("Enter number of files"))
+for i in range(0, num):
+    path = str(input("Enter the path"))
+    path1 = re.sub('"' , '', path)
+    firstPass = re.findall("\d+_",path1)[0]
+    AppId = re.sub("_","",firstPass)
+    wb = openpyxl.load_workbook(path1)
+    wb.active = wb['Analysis']
+    sheet = wb.active 
+    Name = sheet.cell(row = 2, column = 2)
+    k = int(2)
+    AmountBusCred = int(0)
+    for j in range(0, 12):
+        tally = sheet.cell(row = 20, column = k)
+        AmountBusCred = AmountBusCred + tally.value
+        k = k + 1
+    Aa = str("A" + str(x))
+    Bb = str("B" + str(x))
+    Cc = str("C" + str(x))
+    Dd = str("D" + str(x))
+    Aaa = str("A" + str(y))
+    Bbb = str("B" + str(y))
+    Ccc = str("C" + str(y))
+    Ss = str("S" + str(x))
+    Tt = str("T" + str(x))
+    worksheet.write(Aa, 'Application ID')
+    worksheet.write(Bb, 'Name Of Account Holder')
+    worksheet.write(Cc, 'Total Amount of Business Credits')
+    worksheet.write(Dd, 'Narration')
+    worksheet.write(Aaa, str(AppId))
+    worksheet.write(Ss, 'Buyer')
+    worksheet.write(Tt, 'Dependency')
+    worksheet.write(Bbb, Name.value)
+    worksheet.write(Ccc, AmountBusCred)
+    wb.active = wb['Top 10 Party Xns1']
+    sheet1 = wb.active
+    l = int(2)
+    for l in range(2, 13):
+        for m in range(2, 17):
+            cell_obj = sheet1.cell(row = l, column = m)
+            if m==2:
+                Zz = str("D" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==3:
+                Zz = str("E" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==4:
+                Zz = str("F" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==5:
+                Zz = str("G" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==6:
+                Zz = str("H" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==7:
+                Zz = str("I" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==8:
+                Zz = str("J" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==9:
+                Zz = str("K" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==10:
+                Zz = str("L" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==11:
+                Zz = str("M" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==12:
+                Zz = str("N" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==13:
+                Zz = str("O" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==14:
+                Zz = str("P" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+            elif m==15:
+                Zz = str("Q" + str(n-1))
+                if l==2:
+                    worksheet.write(Zz, cell_obj.value)
+                else:
+                    Totalavg = int(0)
+                    for j in range(3,15):
+                        Num = sheet1.cell(row = l, column = j)
+                        number = int(Num.value)
+                        Totalavg = int(Totalavg + number)
+                    worksheet.write(Zz, Totalavg)
+            elif m==16:
+                Zz = str("R" + str(n-1))
+                worksheet.write(Zz, cell_obj.value)
+                n = n+1
+    
+    for g in range(3,13):
+        Bbz = str('S' + str(v))
+        Buyer = sheet1.cell(row = g, column = 2)
+        nx = re.sub('Transfer from ', '', str(Buyer.value))
+        worksheet.write(Bbz, nx)
+        v = int(v+1)
+        
+    #THIS IS A CODE FOR THE DEPENDANCY
+    for a in range(3,13):
+        Tt = str('T'+str(u))
+        Totalavg = float(0)
+        for j in range(3,15):
+            Num = sheet1.cell(row = a, column = j)
+            Totalavg = float(Totalavg + Num.value)
+        Dependancy = Totalavg/AmountBusCred
+        Dependancypercent = round(Dependancy*100, 2)
+        worksheet.write(Tt, str(str(Dependancypercent)+'%'))
+        u = int(u + 1)
+
+    #AUTOMATION VARIABLES ARE CHANGED TO AUTOMATE HERE
+    x = int(x + 12)
+    n = int(n + 1)
+    y = int(y + 12)
+    v = int(v + 2)
+    u = int(u + 2)
+    #AUTOMATION VARIABLES ARE CHANGED TO AUTOMATE HERE
+workbook.close()
+    
+    
+ 
+    
+    
+
